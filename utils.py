@@ -3,7 +3,8 @@ import torchvision.transforms as transforms
 import torchvision.datasets as dset
 
 # Directory containing the data.
-root = 'data/celeba'
+root = "data/cropped"
+
 
 def get_celeba(params):
     """
@@ -12,19 +13,21 @@ def get_celeba(params):
 
     """
     # Data proprecessing.
-    transform = transforms.Compose([
-        transforms.Resize(params['imsize']),
-        transforms.CenterCrop(params['imsize']),
-        transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5),
-            (0.5, 0.5, 0.5))])
+    transform = transforms.Compose(
+        [
+            transforms.Resize(params["imsize"]),
+            transforms.CenterCrop(params["imsize"]),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ]
+    )
 
     # Create the dataset.
     dataset = dset.ImageFolder(root=root, transform=transform)
 
     # Create the dataloader.
-    dataloader = torch.utils.data.DataLoader(dataset,
-        batch_size=params['bsize'],
-        shuffle=True)
+    dataloader = torch.utils.data.DataLoader(
+        dataset, batch_size=params["bsize"], shuffle=True
+    )
 
     return dataloader
